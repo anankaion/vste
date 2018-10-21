@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
     //Program loop
     while (1){
         printf(">");
-        gets(in);
+        scanf("%s", in);
 	    printf("\n");
 
 	    if (in[0] == 'q'){
