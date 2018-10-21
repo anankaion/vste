@@ -8,7 +8,6 @@
 #define MAXLEN 255
 
 struct line{
-    int nr;
     char* content;
 
     struct line* prev;
@@ -18,5 +17,7 @@ struct line{
 struct line* first;
 struct line* last;
 
-struct line* readFile(char* filename);
+void readFile(char* filename);
+void insert(int nr, char buf[]);
+void showFile();
 #endif //VSTE_EDIT_H

@@ -35,14 +35,12 @@ int main(int argc, char* argv[]) {
         perror("Too few arguments!\n");
     }
 
-    printf("%s\n%s\n", first->content, last->content);
-
     //Help message at beginning
     printf("(Press h for help)\n");
 
     //Program loop
     while (1){
-        printf(">");
+        printf("\n>");
         c = getchar();
 
         switch (c){
@@ -50,9 +48,12 @@ int main(int argc, char* argv[]) {
                 printHelp();
                 break;
 
+            case 's':
+                showFile();
+                break;
+
             case 'q':
                 exit(EXIT_SUCCESS);
         }
     }
-    return 0;
 }

@@ -10,7 +10,6 @@
 
 void insert(int nr, char buf[]){
     struct line* l = (struct line*) malloc(sizeof(struct line));
-    l->nr = nr;
     l->content = malloc(sizeof(char)*strlen(buf));
     strcpy(l->content, buf);
 
@@ -28,7 +27,7 @@ void insert(int nr, char buf[]){
     }
 }
 
-struct line* readFile(char* filename){
+void readFile(char* filename){
     FILE *fp = fopen(filename, "r");
     char buf[MAXLEN];
 
@@ -36,3 +35,13 @@ struct line* readFile(char* filename){
         insert(i, buf);
     }
 }
+
+void showFile(){
+    struct line* l = first;
+
+    for(int i = 0; l != NULL; i++){
+        printf("%d %s", i, l->content);
+        l = l->next;
+    }
+}
+
