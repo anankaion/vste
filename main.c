@@ -10,34 +10,48 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <memory.h>
 
 #include "file.h"
 
-void printHelp(){
-    printf("key\tfunction\targ1\targ2\n");
-    printf("------------------------------------------------------\n\n");
+/*int count(char* str, char c){
+    int count = 0;
 
-    printf("h\thelp\n");
-    printf("q\tquit\n");
-    printf("s\tshow file\n");
-    printf("l\tshow line\tnr\n");
-    printf("r\treplace line\tnr\tline\n");
+    for (int i = 0; i < strlen(str); ++i) {
+        if (str[i] == c){
+            count++;
+        }
+    }
+
+    return count;
+}*/
+
+
+char** tokenize(char in[]){
+    char **tokens;
+
+    tokens[0] = strtok(in, ";");
+
+    for (int i = 1; (tokens[i] = strtok(NULL, ";")) != NULL; ++i);
+
+    return tokens;
 }
 
 int main(int argc, char* argv[]) {
-    int c;
-    int i;
+    char in[MAXIN];
 
     first = NULL;
     last = NULL;
 
     struct line* l = NULL;
 
+    char** tokens;
+
     if (argc > 1){
         readFile(argv[1]);
     } else{
         perror("Too few arguments!\n");
-	    exit(-1);
+	    exit(EXIT_FAILURE);
     }
 
     //Help message at beginning
@@ -46,26 +60,14 @@ int main(int argc, char* argv[]) {
     //Program loop
     while (1){
         printf(">");
-        c = getchar();
+        gets(in);
 	    printf("\n");
 
-        switch (c){
-            case 'h':
-                printHelp();
-                break;
+	    if (in[0] == 'q'){
+	        exit(EXIT_SUCCESS);
+	    }
 
-            case 's':
-                showFile();
-                break;
-
-            case 'l':
-                scanf("%d", &i);
-                l = findLine(i);
-                printf("%s", l->content);
-                break;
-
-            case 'q':
-                exit(EXIT_SUCCESS);
-        }
+        tokens = tokenize(in);
+	    runCommandChain(tokens);
     }
 }

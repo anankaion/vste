@@ -5,8 +5,10 @@
 #include <stdio.h>
 #include <memory.h>
 #include <malloc.h>
+#include <stdlib.h>
 
 #include "file.h"
+
 
 void insertNode(int nr, char buf[]){
     struct line* l = (struct line*) malloc(sizeof(struct line));
@@ -49,8 +51,34 @@ struct line* findLine(int nr){
     struct line* l = first;
 
     for (int i = 0; i < nr; ++i) {
-        l = l->next;
+        if (l->next != NULL){
+            l = l->next;
+        } else{
+            return NULL;
+        }
     }
 
     return l;
+}
+
+void runCommandChain(char** tokens){
+    struct line* l;
+    int conv;
+
+    switch (tokens[0][0]){
+        case 's':
+            if (tokens[1][0] == 'f'){
+                showFile();
+            } else if (tokens[1][0] == 'l'){
+                if ((l = findLine(atoi(tokens[2]))) != NULL){
+                    printf("%s", l->content);
+                } else{
+                    printf("Line exceeding limit\n");
+                }
+
+            } else{
+                printf("Wrong argument for show\n");
+            }
+            break;
+    }
 }
