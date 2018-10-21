@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "edit.h"
+#include "file.h"
 
 void printHelp(){
     printf("key\tfunction\targ1\targ2\n");
@@ -26,13 +26,18 @@ void printHelp(){
 
 int main(int argc, char* argv[]) {
     int c;
+    int i;
+
     first = NULL;
     last = NULL;
 
-    if (argc > 0){
+    struct line* l = NULL;
+
+    if (argc > 1){
         readFile(argv[1]);
     } else{
         perror("Too few arguments!\n");
+	    exit(-1);
     }
 
     //Help message at beginning
@@ -40,8 +45,9 @@ int main(int argc, char* argv[]) {
 
     //Program loop
     while (1){
-        printf("\n>");
+        printf(">");
         c = getchar();
+	    printf("\n");
 
         switch (c){
             case 'h':
@@ -50,6 +56,12 @@ int main(int argc, char* argv[]) {
 
             case 's':
                 showFile();
+                break;
+
+            case 'l':
+                scanf("%d", &i);
+                l = findLine(i);
+                printf("%s", l->content);
                 break;
 
             case 'q':

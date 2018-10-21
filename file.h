@@ -18,6 +18,7 @@ struct line* first;
 struct line* last;
 
 void readFile(char* filename);
-void insert(int nr, char buf[]);
+void insertNode(int nr, char buf[]);
 void showFile();
+struct line* findLine(int nr);
 #endif //VSTE_EDIT_H

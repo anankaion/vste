@@ -3,12 +3,12 @@
 //
 
 #include <stdio.h>
-#include <mem.h>
+#include <memory.h>
 #include <malloc.h>
 
-#include "edit.h"
+#include "file.h"
 
-void insert(int nr, char buf[]){
+void insertNode(int nr, char buf[]){
     struct line* l = (struct line*) malloc(sizeof(struct line));
     l->content = malloc(sizeof(char)*strlen(buf));
     strcpy(l->content, buf);
@@ -32,7 +32,7 @@ void readFile(char* filename){
     char buf[MAXLEN];
 
     for (int i = 0; fgets(buf, BUFSIZ, fp); i++){
-        insert(i, buf);
+        insertNode(i, buf);
     }
 }
 
@@ -40,8 +40,17 @@ void showFile(){
     struct line* l = first;
 
     for(int i = 0; l != NULL; i++){
-        printf("%d %s", i, l->content);
+        printf("%d\t%s", i, l->content);
         l = l->next;
     }
 }
 
+struct line* findLine(int nr){
+    struct line* l = first;
+
+    for (int i = 0; i < nr; ++i) {
+        l = l->next;
+    }
+
+    return l;
+}
