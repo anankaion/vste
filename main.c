@@ -68,6 +68,6 @@ int main(int argc, char* argv[]) {
 	    }
 
         tokens = tokenize(in);
-	    runCommandChain(tokens);
+	    runCommandChain(tokens, argv[1]);
     }
 }

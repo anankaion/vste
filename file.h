@@ -19,16 +19,20 @@ struct line{
 struct line* first;
 struct line* last;
 
-void insertNode(int nr, char buf[]);
-void runCommandChain(char** tokens);
+void runCommandChain(char** tokens, char filename[]);
+
+void insertNode(char buf[]);
+struct line* findLine(int nr);
 
 void readFile(char* filename);
-void showFile();
+int writeFile(char* filename);
 
-struct line* findLine(int nr);
+void showFile();
 int printLines(int from, int howmany);
 
 int deleteLine(int nr);
 int deleteLines(int from, int howmany);
+
+void appendAfterLine(int nr, char* toappend);
 
 #endif //VSTE_EDIT_H

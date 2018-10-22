@@ -10,7 +10,7 @@
 #include "file.h"
 
 
-void insertNode(int nr, char buf[]){
+void insertNode(char buf[]){
     struct line* l = (struct line*) malloc(sizeof(struct line));
     l->content = malloc(sizeof(char)*strlen(buf));
     strcpy(l->content, buf);
@@ -34,10 +34,32 @@ void readFile(char* filename){
     char buf[MAXLEN];
 
     for (int i = 0; fgets(buf, BUFSIZ, fp); i++){
-        insertNode(i, buf);
+        insertNode(buf);
     }
 
     fclose(fp);
+}
+
+int writeFile(char* filename){
+    FILE *fp;
+    struct line* l = first;
+
+    if ((fp = fopen(filename, "w"))){
+        while (l != NULL){
+            if (fputs(l->content, fp)){
+                l = l->next;
+            } else{
+                fclose(fp);
+                return 0;
+            }
+        }
+    } else{
+        fclose(fp);
+        return -1;
+    }
+
+    fclose(fp);
+    return 1;
 }
 
 void showFile(){
@@ -155,9 +177,21 @@ int deleteLines(int from, int howmany){
     return 1;
 }
 
-void runCommandChain(char** tokens){
+void appendAfterLine(int nr, char* toappend){
+    struct line* prev = findLine(nr);
+
+    struct line* new = malloc(sizeof(struct line));
+    strcpy(new->content, strcat(toappend, "\n"));
+    new->prev = prev;
+    new->next = prev->next;
+
+    prev->next->prev = new;
+    prev->next = new;
+}
+
+void runCommandChain(char** tokens, char filename[]){
     struct line* from;
-    int conv;
+    int r;
 
     switch (tokens[0][0]){
         //show
@@ -199,20 +233,53 @@ void runCommandChain(char** tokens){
                 if (tokens[3] == NULL){
                     deleteLine(atoi(tokens[2]));
                 } else{
-                    {
-                        int r;
-                        r = deleteLines(atoi(tokens[2]), atoi(tokens[3]));
+                    r = deleteLines(atoi(tokens[2]), atoi(tokens[3]));
 
-                        if (r == 0){
-                            printf("This line is the last one. Cannot delete more.\n");
-                        } else if(r == -1){
-                            printf("Line exceeds limit\n");
-                        } else if(r == -2){
-                            printf("Line could not be found\n");
-                        }
+                    if (r == 0){
+                        printf("This line is the last one. Cannot delete more.\n");
+                    } else if(r == -1){
+                        printf("Line exceeds limit\n");
+                    } else if(r == -2){
+                        printf("Line could not be found\n");
                     }
                 }
             }
+            break;
+
+        case 'w':
+            if(tokens[1] == NULL){
+                r = writeFile(filename);
+            } else{
+                r = writeFile(tokens[1]);
+            }
+
+            if (r == 0){
+                printf("Write failed\n");
+            } else if (r == -1){
+                printf("File could not be opened.\n");
+            }
+            break;
+
+        case 'a':
+            if (tokens[1] != NULL){
+                if (tokens[1][0] == 'l'){
+                    if (tokens[2] != NULL){
+                        appendAfterLine(atoi(tokens[2]), tokens[3]);
+                    } else{
+                        printf("Too few arguments given.\n");
+                    }
+                } else if (tokens[1][0] == 'w'){
+                    //TODO: append after word
+                } else{
+                    printf("Wrong argument given.\n");
+                }
+            } else {
+                printf("Too few arguments given.\n");
+            }
+
+
+        default:
+            printf("Function not supported.\n");
             break;
     }
 }
