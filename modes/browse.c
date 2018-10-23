@@ -8,83 +8,39 @@
 #include "browse.h"
 #include "../file.h"
 
-int scrollDownMin(int* curpos){
-    for (int i = 0; i < MINSCROLL; ++i) {
-        printf("%d\t%s",*curpos , current->content);
 
-        if (current->next != NULL){
-            current = current->next;
-            (*curpos)++;
-        } else{
-            return 0;
-        }
-    }
-
-    return 1;
-}
-
-int scrollDownMax(int* curpos){
-    for (int i = 0; i < MAXSCROLL; ++i) {
-        printf("%d\t%s",*curpos , current->content);
-
-        if (current->next != NULL){
-            current = current->next;
-            (*curpos)++;
-        } else{
-            return 0;
-        }
-    }
-
-    return 1;
-}
-
-int scrollUpMin(int* curpos){
-    for (int i = 0; i < MINSCROLL; ++i) {
-        if (current->prev != NULL){
-            current = current->prev;
-            (*curpos)--;
-        } else{
-            return 0;
-        }
-    }
-
-    printLines(*curpos, MINSCROLL);
-
-    return 1;
-}
-
-int scrollUpMax(int* curpos){
-    for (int i = 0; i < MAXSCROLL; ++i) {
-        if (current->prev != NULL){
-            current = current->prev;
-            (*curpos)--;
-        } else{
-            return 0;
-        }
-    }
-
-    printLines(*curpos, MAXSCROLL);
-
-    return 1;
-}
 
 void runBrowseMode(char** tokens, int* curpos){
 
     switch (tokens[0][0]){
         case 'd':
-            scrollDownMin(curpos);
+            *curpos = (*curpos) + MINSCROLL;
+            printLines(*curpos, STDTERM);
             break;
 
         case 'D':
-            scrollDownMax(curpos);
+            *curpos = (*curpos) + MAXSCROLL;
+            printLines(*curpos, STDTERM);
             break;
 
         case 'u':
-            scrollUpMin(curpos);
+            *curpos = (*curpos) - MINSCROLL;
+            printLines(*curpos, STDTERM);
             break;
 
         case 'U':
-            scrollUpMax(curpos);
+            *curpos = (*curpos) - MAXSCROLL;
+            printLines(*curpos, STDTERM);
+            break;
+
+        case 'j':
+            (*curpos)++;
+            printLines(*curpos, STDTERM);
+            break;
+
+        case 'k':
+            (*curpos)--;
+            printLines(*curpos, STDTERM);
             break;
 
         case 'c':

@@ -14,8 +14,4 @@ int browseMode();
 
 void runBrowseMode(char** tokens, int* curpos);
 
-int scrollDownMin(int* curpos);
-int scrollDownMax(int* curpos);
-
-
 #endif //VSTE_MODE_H

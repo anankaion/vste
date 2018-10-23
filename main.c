@@ -13,6 +13,7 @@
 #include <memory.h>
 
 #include "file.h"
+#include "modes/standard.h"
 
 /*int count(char* str, char c){
     int count = 0;
