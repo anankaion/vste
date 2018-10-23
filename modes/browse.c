@@ -50,7 +50,6 @@ int browseMode(){
     char in[MAXIN];
     char** tokens;
 
-    current = first;
     int curpos = 0;
 
     while (1){

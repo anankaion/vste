@@ -6,6 +6,7 @@
 
 #include "standard.h"
 #include "browse.h"
+#include "append.h"
 #include "../file.h"
 
 void runCommandChain(char** tokens, char filename[]){
@@ -104,6 +105,12 @@ void runCommandChain(char** tokens, char filename[]){
             if (tokens[1] != NULL){
                 if (tokens[1][0] == 'b'){
                     browseMode();
+                } else if (tokens[1][0] == 'a'){
+                    if (tokens[2] != NULL){
+                        appendMode(atoi(tokens[2]));
+                    } else{
+                        appendMode(0);
+                    }
                 }
             } else{
                 printf("Too few arguments given.\n");
@@ -185,14 +192,17 @@ int deleteLines(int from, int howmany){
     return 1;
 }
 
-void appendAfterLine(int nr, char* toappend){
+void appendAfterLine(int nr, char toappend[]){
     struct line* prev = findLine(nr);
+    struct line* next = prev->next;
 
     struct line* new = malloc(sizeof(struct line));
+    new->content = malloc(sizeof(char)*strlen(toappend));
     strcpy(new->content, strcat(toappend, "\n"));
-    new->prev = prev;
-    new->next = prev->next;
 
-    prev->next->prev = new;
+    new->prev = prev;
+    new->next = next;
+
     prev->next = new;
+    next->prev = new;
 }
