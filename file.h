@@ -7,7 +7,7 @@
 
 #define MAXLEN 255
 #define MAXIN 20
-#define STDTERM 80
+#define STDTERM 50
 
 struct line{
     char* content;
@@ -23,6 +23,7 @@ void runCommandChain(char** tokens, char filename[]);
 
 void insertNode(char buf[]);
 struct line* findLine(int nr);
+char** tokenize(char in[]);
 
 void readFile(char* filename);
 int writeFile(char* filename);

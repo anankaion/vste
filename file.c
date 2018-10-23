@@ -8,7 +8,17 @@
 #include <stdlib.h>
 
 #include "file.h"
+#include "mode.h"
 
+char** tokenize(char in[]){
+    char **tokens;
+
+    tokens[0] = strtok(in, ";");
+
+    for (int i = 1; (tokens[i] = strtok(NULL, ";")) != NULL; ++i);
+
+    return tokens;
+}
 
 void insertNode(char buf[]){
     struct line* l = (struct line*) malloc(sizeof(struct line));
@@ -276,7 +286,17 @@ void runCommandChain(char** tokens, char filename[]){
             } else {
                 printf("Too few arguments given.\n");
             }
+            break;
 
+        case 'm':
+            if (tokens[1] != NULL){
+                if (tokens[1][0] == 'b'){
+                    browseMode();
+                }
+            } else{
+                printf("Too few arguments given.\n");
+            }
+            break;
 
         default:
             printf("Function not supported.\n");
