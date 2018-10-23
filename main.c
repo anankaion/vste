@@ -27,23 +27,13 @@
 }*/
 
 
-char** tokenize(char in[]){
-    char **tokens;
 
-    tokens[0] = strtok(in, ";");
-
-    for (int i = 1; (tokens[i] = strtok(NULL, ";")) != NULL; ++i);
-
-    return tokens;
-}
 
 int main(int argc, char* argv[]) {
     char in[MAXIN];
 
     first = NULL;
     last = NULL;
-
-    struct line* l = NULL;
 
     char** tokens;
 

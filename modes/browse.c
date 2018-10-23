@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "mode.h"
-#include "file.h"
+#include "browse.h"
+#include "../file.h"
 
 int scrollDownMin(int* curpos){
     for (int i = 0; i < MINSCROLL; ++i) {
@@ -38,6 +38,36 @@ int scrollDownMax(int* curpos){
     return 1;
 }
 
+int scrollUpMin(int* curpos){
+    for (int i = 0; i < MINSCROLL; ++i) {
+        if (current->prev != NULL){
+            current = current->prev;
+            (*curpos)--;
+        } else{
+            return 0;
+        }
+    }
+
+    printLines(*curpos, MINSCROLL);
+
+    return 1;
+}
+
+int scrollUpMax(int* curpos){
+    for (int i = 0; i < MAXSCROLL; ++i) {
+        if (current->prev != NULL){
+            current = current->prev;
+            (*curpos)--;
+        } else{
+            return 0;
+        }
+    }
+
+    printLines(*curpos, MAXSCROLL);
+
+    return 1;
+}
+
 void runBrowseMode(char** tokens, int* curpos){
 
     switch (tokens[0][0]){
@@ -50,11 +80,15 @@ void runBrowseMode(char** tokens, int* curpos){
             break;
 
         case 'u':
-
+            scrollUpMin(curpos);
             break;
 
         case 'U':
+            scrollUpMax(curpos);
+            break;
 
+        case 'c':
+            clear();
             break;
     }
 }

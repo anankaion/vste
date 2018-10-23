@@ -19,21 +19,14 @@ struct line{
 struct line* first;
 struct line* last;
 
-void runCommandChain(char** tokens, char filename[]);
-
 void insertNode(char buf[]);
-struct line* findLine(int nr);
 char** tokenize(char in[]);
+void clear();
+
+struct line* findLine(int nr);
+int printLines(int from, int howmany);
 
 void readFile(char* filename);
 int writeFile(char* filename);
-
-void showFile();
-int printLines(int from, int howmany);
-
-int deleteLine(int nr);
-int deleteLines(int from, int howmany);
-
-void appendAfterLine(int nr, char* toappend);
 
 #endif //VSTE_EDIT_H

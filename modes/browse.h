@@ -10,9 +10,12 @@
 
 struct line* current;
 
+int browseMode();
+
+void runBrowseMode(char** tokens, int* curpos);
+
 int scrollDownMin(int* curpos);
 int scrollDownMax(int* curpos);
 
-int browseMode();
 
 #endif //VSTE_MODE_H
