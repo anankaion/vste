@@ -1,6 +1,4 @@
-//
-// Created by tyroc on 21.10.2018.
-//
+
 
 #ifndef VSTE_EDIT_H
 #define VSTE_EDIT_H

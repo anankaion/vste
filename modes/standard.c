@@ -1,6 +1,4 @@
-//
-// Created by sus on 23.10.18.
-//
+
 
 #include <stdio.h>
 #include <stdlib.h>

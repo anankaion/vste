@@ -1,6 +1,4 @@
-//
-// Created by sus on 22.10.18.
-//
+
 
 #ifndef VSTE_MODE_H
 #define VSTE_MODE_H

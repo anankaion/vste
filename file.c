@@ -1,6 +1,3 @@
-//
-// Created by tyroc on 21.10.2018.
-//
 
 #include <stdio.h>
 #include <memory.h>
