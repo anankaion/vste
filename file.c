@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #include "file.h"
-#include "modes/browse.h"
+#include "modes.h"
 
 char** tokenize(char in[]){
     char **tokens;

@@ -1,13 +1,13 @@
+//
+// Created by sus on 25.10.18.
+//
 
-
-#include <stdio.h>
+#include "modes.h"
+#include "memory.h"
+#include <malloc.h>
 #include <stdlib.h>
-#include <memory.h>
 
-#include "standard.h"
-#include "browse.h"
-#include "append.h"
-#include "../file.h"
+#include "file.h"
 
 void runCommandChain(char** tokens, char filename[]){
     struct line* from;
@@ -123,6 +123,82 @@ void runCommandChain(char** tokens, char filename[]){
     }
 }
 
+void runBrowseMode(char** tokens, int* curpos){
+
+    switch (tokens[0][0]){
+        case 'd':
+            *curpos = (*curpos) + MINSCROLL;
+            printLines(*curpos, STDTERM);
+            break;
+
+        case 'D':
+            *curpos = (*curpos) + MAXSCROLL;
+            printLines(*curpos, STDTERM);
+            break;
+
+        case 'u':
+            *curpos = (*curpos) - MINSCROLL;
+            printLines(*curpos, STDTERM);
+            break;
+
+        case 'U':
+            *curpos = (*curpos) - MAXSCROLL;
+            printLines(*curpos, STDTERM);
+            break;
+
+        case 'j':
+            (*curpos)++;
+            printLines(*curpos, STDTERM);
+            break;
+
+        case 'k':
+            (*curpos)--;
+            printLines(*curpos, STDTERM);
+            break;
+
+        case 'c':
+            clear();
+            break;
+    }
+}
+
+int browseMode(){
+    char in[MAXIN];
+    char** tokens;
+
+    int curpos = 0;
+
+    while (1){
+        printf("$");
+        scanf("%s", in);
+        printf("\n");
+
+        if (in[0] == 'q'){
+            return 0;
+        }
+
+        tokens = tokenize(in);
+        runBrowseMode(tokens, &curpos);
+    }
+}
+
+int appendMode(int after){
+    char in[MAXLEN];
+
+    while (1){
+        printf("%%");
+        scanf("%s", in);
+        printf("\n");
+
+        if (in[0] == 'q'){
+            return 0;
+        }
+
+        appendAfterLine(after, in);
+        after++;
+    }
+}
+
 void showFile(){
     struct line* l = first;
 
@@ -206,3 +282,4 @@ void appendAfterLine(int nr, char toappend[]){
     prev->next = new;
     next->prev = new;
 }
+

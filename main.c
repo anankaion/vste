@@ -13,7 +13,7 @@
 #include <memory.h>
 
 #include "file.h"
-#include "modes/standard.h"
+#include "modes.h"
 
 int main(int argc, char* argv[]) {
     char in[MAXIN];
