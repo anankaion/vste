@@ -10,5 +10,3 @@ Trademarks will be:
 2. Minimal lines of code
 3. Implementation of the _"worse is better"_ philosophy
 4. Low disk usage
-
-Development will be slow but steady.
